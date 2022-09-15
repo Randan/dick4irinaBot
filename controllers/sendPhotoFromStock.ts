@@ -1,41 +1,27 @@
-import mongoose from 'mongoose';
 import { AxiosResponse } from 'axios';
-import { Message } from 'node-telegram-bot-api';
 import bot from '../bot';
 import { getPhoto } from '../api';
-import { dbMongooseUri, handleError, lib, notifyAdmin } from '../utils';
-import { Users } from '../schemas';
-import { IUnsplashResponse, IUser } from '../interfaces';
+import { IPexelsResponse } from '../interfaces';
 
 const sendPhotoFromStock = async (
-  msg: Message,
+  id: number,
   query: string,
   caption?: string
 ): Promise<void> => {
-  if (!msg.from) return;
-
-  const { id } = msg.from;
-
   try {
-    mongoose.connect(dbMongooseUri);
+    const response: AxiosResponse<IPexelsResponse> = await getPhoto(query);
 
-    const user: IUser | null = await Users.findOne({ telegramId: id });
+    if (response.status >= 200 && response.status < 400) {
+      const randomID = Math.floor(Math.random() * response.data.total_results - 1);
+      const randomPhotoObj = response.data.photos[randomID];
+      const randomPhotoUri = randomPhotoObj.src.medium;
 
-    if (!user) {
-      bot.sendMessage(id, lib.userNotExists());
-      return;
-    }
-
-    const photo: AxiosResponse<IUnsplashResponse> = await getPhoto(query);
-
-    if (photo) {
-      bot.sendPhoto(id, photo.data.urls.regular, {
+      bot.sendPhoto(id, randomPhotoUri, {
         caption,
       });
-      notifyAdmin(lib.userGotPhoto(msg, query));
     }
   } catch (err: unknown) {
-    handleError(JSON.stringify(err));
+    console.log(err);
   }
 };
 

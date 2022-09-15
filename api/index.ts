@@ -1,15 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { handleError, unsplashAppToken, unsplashUri } from '../utils';
-import { IUnsplashResponse } from '../interfaces';
+import { photostockAppToken, photostockUri } from '../utils';
+import { IPexelsResponse } from '../interfaces';
 
 type RequestMethod = 'get' | 'post' | 'put' | 'delete';
 
-const unsplashInstance: AxiosInstance = axios.create({
-  baseURL: unsplashUri
+const photostockInstance: AxiosInstance = axios.create({
+  baseURL: photostockUri
 });
 
 const additionalUrls: Record<string, string> = {
-  randomPhoto: '/photos/random'
+  search: '/search'
 };
 
 const addParams = (
@@ -28,13 +28,13 @@ const addParams = (
 const makeRequest = (method: RequestMethod, url: string, ...params: any) => {
   switch (method) {
     case 'get':
-      return unsplashInstance.get(`${url}`, ...params);
+      return photostockInstance.get(`${url}`, ...params);
     case 'post':
-      return unsplashInstance.post(`${url}`, ...params);
+      return photostockInstance.post(`${url}`, ...params);
     case 'put':
-      return unsplashInstance.put(`${url}`, ...params);
+      return photostockInstance.put(`${url}`, ...params);
     case 'delete':
-      return unsplashInstance.delete(`${url}`, ...params);
+      return photostockInstance.delete(`${url}`, ...params);
   }
 };
 
@@ -44,9 +44,9 @@ const request = (method: RequestMethod, url: string) => {
   };
 };
 
-unsplashInstance.interceptors.request.use(async (config: AxiosRequestConfig) => {
-  if (unsplashAppToken) {
-    config.headers && (config.headers.Authorization = `Client-ID ${unsplashAppToken}`);
+photostockInstance.interceptors.request.use(async (config: AxiosRequestConfig) => {
+  if (photostockAppToken) {
+    config.headers && (config.headers.Authorization = photostockAppToken);
 
     return config;
   }
@@ -54,10 +54,10 @@ unsplashInstance.interceptors.request.use(async (config: AxiosRequestConfig) => 
   return config;
 });
 
-unsplashInstance.interceptors.response.use(
+photostockInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   (reject: any) => {
-    handleError(JSON.stringify(reject));
+    console.log(reject);
 
     return reject;
   }
@@ -65,10 +65,11 @@ unsplashInstance.interceptors.response.use(
 
 export const getPhoto = (
   query: string
-): Promise<AxiosResponse<IUnsplashResponse, void>> =>
+): Promise<AxiosResponse<IPexelsResponse, void>> =>
   request(
     'get',
-    addParams(unsplashUri + additionalUrls.randomPhoto, {
-      query
+    addParams(photostockUri + additionalUrls.search, {
+      query,
+      per_page: 80
     })
   )();

@@ -1,31 +1,32 @@
-export interface IUser {
-  telegramId: number;
-  firstName: string;
-  lastName?: string;
-  userName?: string;
-}
-
-export interface ICompliment {
-  value: string;
-}
-
-interface IUnsplashUrls {
+interface IPexelsPhotoSRC {
+  original: string;
+  large2x: string;
   large: string;
-  regular: string;
-  raw: string;
-  small: string
+  medium: string;
+  small: string;
+  portrait: string;
+  landscape: string;
+  tiny: string;
 }
 
-interface IUnsplashUser {
-  username: string;
-  name: string;
+interface IPexelsPhoto {
+  id: number,
+  width: number,
+  height: number,
+  url: string;
+  photographer: string;
+  photographer_url: string;
+  photographer_id: number,
+  avg_color: string;
+  src: IPexelsPhotoSRC,
+  liked: boolean,
+  alt: string;
 }
 
-export interface IUnsplashResponse {
-  id: number;
-  width: number;
-  height: number;
-  urls: IUnsplashUrls;
-  color: string | null;
-  user: IUnsplashUser;
+export interface IPexelsResponse {
+  page: number;
+  per_page: number;
+  photos: IPexelsPhoto[];
+  total_results: number;
+  next_page: string;
 }

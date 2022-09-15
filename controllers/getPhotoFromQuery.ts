@@ -6,7 +6,7 @@ const getPhotoFromQuery = (msg: Message): void => {
 
   const photoQuery: string = msg.text?.replace('/getPhoto', '').trim() || '';
 
-  sendPhotoFromStock(msg, photoQuery);
+  sendPhotoFromStock(msg.chat.id, photoQuery);
 };
 
 export default getPhotoFromQuery;

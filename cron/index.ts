@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import cron from 'node-cron';
-import { sendComplimentAndFlowerToAllUsers } from '../controllers';
+import { sendPhotoFromStock } from '../controllers';
+import { chatId } from '../utils';
 
 const cronOptions = {
   scheduled: true,
@@ -8,5 +9,5 @@ const cronOptions = {
 };
 
 cron.schedule('0 10 * * *', () => {
-  sendComplimentAndFlowerToAllUsers();
+  sendPhotoFromStock(Number(chatId), 'penis', '@irinamysiuk, увімкни уяву і не забувай, що тебе тут чекають =)');
 }, cronOptions);
