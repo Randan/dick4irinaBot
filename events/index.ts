@@ -3,12 +3,12 @@ import bot from '../bot';
 import { sendPhotoFromStock } from '../controllers';
 
 const events: Record<string, RegExp> = {
-  penis: /\/penis/,
+  flowers: /\/flowers/,
 };
 
 bot.onText(
-  events.penis,
-  (msg: Message): Promise<void> => sendPhotoFromStock(msg.chat.id || 0, 'penis')
+  events.flowers,
+  (msg: Message): Promise<void> => sendPhotoFromStock(msg.chat.id || 0, 'flowers')
 );
 
 bot.onText(/111/, (msg: Message): void => console.log(msg));

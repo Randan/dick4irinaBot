@@ -9,6 +9,5 @@ const cronOptions = {
 };
 
 cron.schedule('0 10 * * *', () => {
-  sendPhotoFromStock(Number(chatId), 'penis', '@irinamysiuk, увімкни уяву і не забувай, що на тебе тут чекають =)');
-  sendPhotoFromStock(Number(chatId), 'flowers', 'Квіти ;)');
+  sendPhotoFromStock(Number(chatId), 'flowers', 'Ранкові квіти');
 }, cronOptions);
