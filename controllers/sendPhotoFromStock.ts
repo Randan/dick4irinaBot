@@ -12,7 +12,7 @@ const sendPhotoFromStock = async (
     const response: AxiosResponse<IPexelsResponse> = await getPhoto(query);
 
     if (response.status >= 200 && response.status < 400) {
-      const randomID = Math.floor(Math.random() * response.data.total_results - 1);
+      const randomID = Math.floor(Math.random() * (response.data?.per_page || 15) - 1);
       const randomPhotoObj = response.data.photos[randomID];
       const randomPhotoUri = randomPhotoObj.src.medium;
 

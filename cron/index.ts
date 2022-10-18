@@ -9,5 +9,5 @@ const cronOptions = {
 };
 
 cron.schedule('0 10 * * *', () => {
-  sendPhotoFromStock(Number(chatId), 'flowers', 'Ранкові квіти');
+  sendPhotoFromStock(Number(chatId), 'flower', 'Ранкові квіти');
 }, cronOptions);
