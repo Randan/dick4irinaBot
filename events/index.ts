@@ -4,6 +4,7 @@ import { sendPhotoFromStock } from '../controllers';
 
 const events: Record<string, RegExp> = {
   flower: /\/flower/,
+  penis: /\/penis/,
 };
 
 bot.onText(
@@ -11,4 +12,7 @@ bot.onText(
   (msg: Message): Promise<void> => sendPhotoFromStock(msg.chat.id || 0, 'flower')
 );
 
-bot.onText(/111/, (msg: Message): void => console.log(msg));
+bot.onText(
+  events.penis,
+  (msg: Message): Promise<void> => sendPhotoFromStock(msg.chat.id || 0, 'penis', '🌭 🍆 🍌')
+);
