@@ -14,7 +14,7 @@ const sendPhotoFromStock = async (
     if (response.status >= 200 && response.status < 400) {
       const randomID = Math.floor(Math.random() * (response.data?.per_page || 15) - 1);
       const randomPhotoObj = response.data.photos[randomID];
-      const randomPhotoUri = randomPhotoObj.src.medium;
+      const randomPhotoUri = randomPhotoObj.src.medium || randomPhotoObj.src.small || randomPhotoObj.src.original;
 
       bot.sendPhoto(id, randomPhotoUri, {
         caption,
